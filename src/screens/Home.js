@@ -5,6 +5,7 @@ import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { Sizes, colors } from '../assets/Styles';
 import MyHeader from '../components/MyHeader';
 import Card from '../components/Card';
+import Loader from '../components/Loader';
 
 const data =
 {
@@ -68,13 +69,16 @@ export const Home = () => {
     const [prices, setPrices] = useState([]);
     useEffect(() => {
         const fetchData = async () => {
+            setIsLoading(true)
             try {
                 const response = await fetchCryptocurrencyPrices();
                 setPrices(response);
                 console.log(response);
+
             } catch (error) {
                 console.error('Error fetching cryptocurrency prices:', error);
             }
+            setIsLoading(false)
         };
         fetchData();
         const interval = setInterval(fetchData, 60000);
